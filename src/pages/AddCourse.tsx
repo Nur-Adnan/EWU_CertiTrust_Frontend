@@ -10,20 +10,39 @@ import {
   CardContent,
   CardFooter,
 } from "@/components/ui/card";
+import useWallet from "./../hooks/useWallet"
+import api from "@/api"
 
 export default function Component() {
   const [courseName, setCourseName] = useState("");
   const [courseId, setCourseId] = useState("");
   const [credit, setCredit] = useState("");
+  const { certiTrust } = useWallet();
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Here you would typically send this data to your backend or blockchain
-    console.log({ courseName, courseId, credit });
-    // Reset form after submission
-    setCourseName("");
-    setCourseId("");
-    setCredit("");
+    setLoading(true)
+    try {
+      const tx = await certiTrust.addCourse(courseId, courseName, credit, {
+        gasPrice: 0, gasLimit: 300000
+      })
+
+      const response = await tx.wait();
+      console.log(response)
+      
+      const dbResponse = await api.post("/addCourse/courses", {
+        courseName, courseId, credit
+      })
+
+      setCourseId('')
+      setCourseName('')
+      setCredit('')
+
+      setLoading(false)
+    } catch (error) {
+      console.log(error)
+    }
   };
 
   return (
@@ -68,7 +87,7 @@ export default function Component() {
             />
           </div>
           <Button type="submit" className="w-full">
-            Submit Course
+            {loading ? "Adding Course" : "Submit Course"}
           </Button>
         </form>
       </CardContent>
