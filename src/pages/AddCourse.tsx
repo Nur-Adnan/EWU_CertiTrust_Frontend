@@ -17,31 +17,34 @@ export default function Component() {
   const [courseName, setCourseName] = useState("");
   const [courseId, setCourseId] = useState("");
   const [credit, setCredit] = useState("");
+  const [message, setMessage] = useState("");
   const { certiTrust } = useWallet();
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true)
+    setMessage(""); // Clear any previous messages
+
     try {
       const tx = await certiTrust.addCourse(courseId, courseName, credit, {
         gasPrice: 0, gasLimit: 300000
       })
 
-      const response = await tx.wait();
-      console.log(response)
+      const txHash = await tx.wait();
+      console.log(txHash)
       
-      const dbResponse = await api.post("/addCourse/courses", {
-        courseName, courseId, credit
-      })
-
-      setCourseId('')
-      setCourseName('')
-      setCredit('')
-
-      setLoading(false)
+      const response = await api.post("/addCourse/courses", {
+        courseName,
+        courseId,
+        credit,
+      });
+      setMessage(response.data.message);
+      setCourseName("");
+      setCourseId("");
+      setCredit("");
     } catch (error) {
-      console.log(error)
+      console.error("Error submitting course:", error);
+      setMessage("An error occurred while submitting the course.");
     }
   };
 
@@ -50,7 +53,7 @@ export default function Component() {
       <CardHeader>
         <CardTitle>Course Information</CardTitle>
         <CardDescription>
-          Enter the details of the course to be added to the blockchain.
+          Enter the details of the course to be added to the database.
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -91,9 +94,18 @@ export default function Component() {
           </Button>
         </form>
       </CardContent>
-      <CardFooter className="flex justify-center">
-        <p className="text-sm text-gray-500">
-          This information will be securely stored on the blockchain.
+      <CardFooter className="flex flex-col items-center">
+        {message && (
+          <p
+            className={`text-sm ${
+              message.includes("Error") ? "text-red-500" : "text-green-500"
+            }`}
+          >
+            {message}
+          </p>
+        )}
+        <p className="text-sm text-gray-500 mt-2">
+          This information will be securely stored in the database.
         </p>
       </CardFooter>
     </Card>
