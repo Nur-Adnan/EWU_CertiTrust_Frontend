@@ -17,8 +17,8 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { UserPlus, GraduationCap, ClipboardList, Users } from "lucide-react";
-import api from "@/api"; 
-import useWallet from "./../hooks/useWallet.js"
+import api from "@/api";
+import useWallet from "./../hooks/useWallet.js";
 
 export default function EmailCreation() {
   const [name, setName] = useState("");
@@ -164,17 +164,19 @@ export default function EmailCreation() {
               <span className="ml-2">
                 {loading
                   ? "Creating..."
-                  : `Create ${role
-                    ? role.charAt(0).toUpperCase() + role.slice(1)
-                    : "User"
-                  }`}
+                  : `Create ${
+                      role
+                        ? role.charAt(0).toUpperCase() + role.slice(1)
+                        : "User"
+                    }`}
               </span>
             </Button>
           </form>
           {message && (
             <p
-              className={`mt-4 text-center ${message.includes("Failed") ? "text-red-500" : "text-green-500"
-                }`}
+              className={`mt-4 text-center ${
+                message.includes("Failed") ? "text-red-500" : "text-green-500"
+              }`}
             >
               {message}
             </p>
