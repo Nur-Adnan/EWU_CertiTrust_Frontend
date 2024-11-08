@@ -7,9 +7,10 @@ import StudentDashboard from "./pages/StudentDashboard";
 import FacultyDashboard from "./pages/FacultyDashboard";
 import ExamControllerDashboard from "./pages/ExamControllerDashboard";
 import useAuth from "./hooks/useAuth.js";
-import NotApproved from "./pages/NotApproved.js"
+import NotApproved from "./pages/NotApproved.js";
 import Login from "./pages/Login.js";
 import { useEffect } from "react";
+import VerifySearch from "./pages/VerifySearch.js";
 
 function App() {
   const { isConnected, user, role } = useAuth();
@@ -30,7 +31,7 @@ function App() {
   };
 
   useEffect(() => {
-    console.log(role)
+    console.log(role);
     if (role) {
       getDashboardComponent();
     }
@@ -43,6 +44,7 @@ function App() {
         <Route path="/" element={<Home />} />
 
         <Route path="/not-approved" element={<NotApproved />} />
+        <Route path="/verify-search" element={<VerifySearch />} />
 
         {/* If the user is not connected, redirect them to the login page */}
         {!isConnected ? (
