@@ -7,18 +7,13 @@ import { useNavigate } from "react-router-dom";
 import useAuth from "./../hooks/useAuth.js";
 
 
-export default function Navbar() {
+export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   const [dashboardRoute, setDashboardRoute] = useState("/");
 
   const { isConnected, account, role } = useAuth();
-  console.log(isConnected);
   console.log(account);
-
-  // const handleLoginClick = () => {
-  //   navigate("/login");
-  // };
 
   const handleDashboardRoute = () => {
     console.log(role)
@@ -36,7 +31,7 @@ export default function Navbar() {
         setDashboardRoute("/exam-controller-dashboard");
         break;
       default:
-        setDashboardRoute("/");
+        setDashboardRoute("/not-approved");
     }
   }
   
@@ -100,7 +95,7 @@ export default function Navbar() {
                   variant="outline"
                   onClick={() => navigate(dashboardRoute)}
                 >
-                  <User className="mr-2 h-4 w-4" /> {account}
+                  <User className="mr-2 h-4 w-4" /> {account?.slice(0, 6) + "..." + account?.slice(37, 42)}
                 </Button>
               </>
             )}

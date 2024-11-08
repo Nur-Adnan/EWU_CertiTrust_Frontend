@@ -10,19 +10,29 @@ import {
   CardContent,
   CardFooter,
 } from "@/components/ui/card";
-import api from "@/api";
+import useWallet from "./../hooks/useWallet"
+import api from "@/api"
 
 export default function Component() {
   const [courseName, setCourseName] = useState("");
   const [courseId, setCourseId] = useState("");
   const [credit, setCredit] = useState("");
   const [message, setMessage] = useState("");
+  const { certiTrust } = useWallet();
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setMessage(""); // Clear any previous messages
 
     try {
+      const tx = await certiTrust.addCourse(courseId, courseName, credit, {
+        gasPrice: 0, gasLimit: 300000
+      })
+
+      const txHash = await tx.wait();
+      console.log(txHash)
+      
       const response = await api.post("/addCourse/courses", {
         courseName,
         courseId,
@@ -80,7 +90,7 @@ export default function Component() {
             />
           </div>
           <Button type="submit" className="w-full">
-            Submit Course
+            {loading ? "Adding Course" : "Submit Course"}
           </Button>
         </form>
       </CardContent>
