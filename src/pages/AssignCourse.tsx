@@ -10,17 +10,25 @@ import {
   CardContent,
   CardFooter,
 } from "@/components/ui/card";
+import api from "@/api";
 
 export default function Component() {
-  const [courseID, setCourseID] = useState("");
+  const [courseId, setCourseID] = useState("");
   const [sectionId, setSectionId] = useState("");
   const [publicAddress, setPublicAddress] = useState("");
   const [maxStudent, setMaxStudent] = useState("");
+  const [message, setMessage] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Here you would typically send this data to your backend or blockchain
-    console.log({ courseID, sectionId, publicAddress, maxStudent });
+    setMessage(""); // Clear any previous messages
+    const response = await api.post("/assignCourse/assign-courses", {
+      courseId,
+      sectionId,
+      publicAddress,
+      maxStudent,
+    });
+    setMessage(response.data.message);
     // Reset form after submission
     setCourseID("");
     setSectionId("");
@@ -43,7 +51,7 @@ export default function Component() {
             <Input
               id="courseID"
               placeholder="Enter course name"
-              value={courseID}
+              value={courseId}
               onChange={(e) => setCourseID(e.target.value)}
               required
             />

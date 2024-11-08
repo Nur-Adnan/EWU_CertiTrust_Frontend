@@ -10,8 +10,8 @@ import {
   CardContent,
   CardFooter,
 } from "@/components/ui/card";
-import useWallet from "./../hooks/useWallet"
-import api from "@/api"
+import useWallet from "./../hooks/useWallet";
+import api from "@/api";
 
 export default function Component() {
   const [courseName, setCourseName] = useState("");
@@ -27,12 +27,13 @@ export default function Component() {
 
     try {
       const tx = await certiTrust.addCourse(courseId, courseName, credit, {
-        gasPrice: 0, gasLimit: 300000
-      })
+        gasPrice: 0,
+        gasLimit: 300000,
+      });
 
       const txHash = await tx.wait();
-      console.log(txHash)
-      
+      console.log(txHash);
+
       const response = await api.post("/addCourse/courses", {
         courseName,
         courseId,
