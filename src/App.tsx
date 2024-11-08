@@ -7,8 +7,9 @@ import StudentDashboard from "./pages/StudentDashboard";
 import FacultyDashboard from "./pages/FacultyDashboard";
 import ExamControllerDashboard from "./pages/ExamControllerDashboard";
 import useAuth from "./hooks/useAuth.js";
-import Admin from "./pages/Admin.js";
+import NotApproved from "./pages/NotApproved.js"
 import Login from "./pages/Login.js";
+import { useEffect } from "react";
 
 function App() {
   const { isConnected, user, role } = useAuth();
@@ -24,15 +25,24 @@ function App() {
       case "examController":
         return <ExamControllerDashboard />;
       default:
-        return <Home />; // Default to Home if no valid role
+        return <NotApproved />; // Default to Home if no valid role
     }
   };
+
+  useEffect(() => {
+    console.log(role)
+    if (role) {
+      getDashboardComponent();
+    }
+  }, [role]);
 
   return (
     <>
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
+
+        <Route path="/not-approved" element={<NotApproved />} />
 
         {/* If the user is not connected, redirect them to the login page */}
         {!isConnected ? (

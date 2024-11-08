@@ -172,22 +172,29 @@ export default function PendingApprovals() {
   };
 
   const handleApproval = async () => {
-    if (!selectedUser || selectedUser.role !== "student") return;
     setLoading(true)
 
     try {
-      const tx = await certiTrust.addStudent(
-        selectedUser.publicAddress,
-        studentId,
-        selectedUser.name,
-        enrolledProgram,
-        maxCredit,
-        { gasLimit: 3000000, gasPrice: 0 }
-      );
+      let tx;
+      if (selectedUser?.role !== "student") {
+        tx = await certiTrust.addStudent(
+          selectedUser?.publicAddress,
+          studentId,
+          selectedUser?.name,
+          enrolledProgram,
+          maxCredit,
+          { gasLimit: 3000000, gasPrice: 0 }
+        );
+      }else{
+        tx = await certiTrust.addRole(selectedUser.publicAddress, selectedUser.email, selectedUser.role, {
+          gasPrice: 0, gasLimit: 3000000
+        });
+      }
+
       const response = await tx.wait();
       console.log(response)
       setLoading(false);
-      handleAction(selectedUser.id, "approve");
+      handleAction(selectedUser?.id, "approve");
       setSelectedUser(null);
     } catch (error) {
       console.error("Error approving student:", error);
