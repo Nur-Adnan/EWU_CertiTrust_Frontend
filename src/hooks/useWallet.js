@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { magic } from "../utils/Magic";
 import useAuth from "./useAuth";
 import { ethers } from "ethers";
-import CertiTrustABI from "../utils/CertiTrust.json";
+import CertiTrustABI from "./../utils/CertiTrust.json";
 
 const certiTrustContract = "0xdb2858E497F1976e956F9f625237FFcCb6B57E3E";
 
