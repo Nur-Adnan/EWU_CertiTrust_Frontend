@@ -32,6 +32,8 @@ import { ChevronDown, User, LogOut } from "lucide-react";
 import { magic } from "./../utils/Magic.js";
 import { useNavigate } from "react-router-dom";
 import useAuth from "./../hooks/useAuth.js";
+import AddCourse from "./AddCourse.js";
+import AssignCourse from "./AssignCourse.js";
 
 const cardData = [
   {
@@ -136,17 +138,25 @@ const UniversityDashboard = () => {
                     alt="John Doe"
                   />
                   <AvatarFallback>
-                    {profile?.name?.split(" ").map((n:any) => n[0]).join("").toUpperCase() || ""}
+                    {profile?.name
+                      ?.split(" ")
+                      .map((n: any) => n[0])
+                      .join("")
+                      .toUpperCase() || ""}
                   </AvatarFallback>
                 </Avatar>
-                <span className="ml-2 hidden sm:inline-block">{profile?.name}</span>
+                <span className="ml-2 hidden sm:inline-block">
+                  {profile?.name}
+                </span>
                 <ChevronDown className="ml-2 h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-56">
               <DropdownMenuLabel>
                 <div className="flex flex-col space-y-1">
-                  <p className="text-sm font-medium leading-none">{profile?.name}</p>
+                  <p className="text-sm font-medium leading-none">
+                    {profile?.name}
+                  </p>
                   <p className="text-xs leading-none text-muted-foreground">
                     {user?.email}
                   </p>
@@ -243,6 +253,16 @@ const UniversityDashboard = () => {
           {selectedSection === "Grade Records" && (
             <div className="pl-12 mt-12">
               <GradeHistoryPage />
+            </div>
+          )}
+          {selectedSection === "Add Course" && (
+            <div className="pl-12 mt-12">
+              <AddCourse />
+            </div>
+          )}
+          {selectedSection === "Assign Course" && (
+            <div className="pl-12 mt-12">
+              <AssignCourse />
             </div>
           )}
         </div>
