@@ -28,7 +28,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import api from "@/api";
-import certiTrust from "@/utils/certiTrust.json"; // Import certiTrust
+import useWallet from "./../hooks/useWallet"
 
 type Role = "faculty" | "student" | "examController";
 type Status = "pending" | "approved" | "rejected";
@@ -128,6 +128,9 @@ export default function PendingApprovals() {
   const [studentId, setStudentId] = useState("");
   const [enrolledProgram, setEnrolledProgram] = useState("");
   const [maxCredit, setMaxCredit] = useState(0);
+
+  // blockchain call
+  const { certiTrust } = useWallet();
 
   useEffect(() => {
     const fetchPendingApprovals = async () => {
