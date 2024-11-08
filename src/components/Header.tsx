@@ -1,11 +1,9 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { Award, Blocks, Menu, Search, User } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { Blocks, Menu, Search, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { useNavigate } from "react-router-dom";
 import useAuth from "./../hooks/useAuth.js";
-
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -13,10 +11,8 @@ export default function Header() {
   const [dashboardRoute, setDashboardRoute] = useState("/");
 
   const { isConnected, account, role } = useAuth();
-  console.log(account);
 
   const handleDashboardRoute = () => {
-    console.log(role)
     switch (role) {
       case "admin":
         setDashboardRoute("/university-dashboard");
@@ -33,15 +29,18 @@ export default function Header() {
       default:
         setDashboardRoute("/not-approved");
     }
-  }
-  
+  };
+
   useEffect(() => {
-    if(role){
+    if (role) {
       handleDashboardRoute();
     }
-  }, [role])
+  }, [role]);
 
-  console.log(dashboardRoute)
+  const handleVerifySearchClick = () => {
+    navigate("/verify-search");
+    setIsOpen(false);
+  };
 
   return (
     <nav className="flex items-center justify-between py-4 bg-background">
@@ -54,23 +53,16 @@ export default function Header() {
 
       <div className="hidden md:flex items-center space-x-4">
         {!isConnected ? (
-          <>
-            <Button variant="outline" onClick={() => navigate("/login")}>
-              <User className="mr-2 h-4 w-4" /> Login
-            </Button>
-          </>
+          <Button variant="outline" onClick={() => navigate("/login")}>
+            <User className="mr-2 h-4 w-4" /> Login
+          </Button>
         ) : (
-          <>
-            <Button
-              variant="outline"
-              onClick={() => navigate(dashboardRoute)}
-            >
-              <User className="mr-2 h-4 w-4" />{" "}
-              {account?.slice(0, 6) + "..." + account?.slice(37, 42)}
-            </Button>
-          </>
+          <Button variant="outline" onClick={() => navigate(dashboardRoute)}>
+            <User className="mr-2 h-4 w-4" />{" "}
+            {account?.slice(0, 6) + "..." + account?.slice(37, 42)}
+          </Button>
         )}
-        <Button>
+        <Button onClick={handleVerifySearchClick}>
           <Search className="mr-2 h-4 w-4" /> Verify Search
         </Button>
       </div>
@@ -84,22 +76,19 @@ export default function Header() {
         <SheetContent side="right">
           <div className="flex flex-col space-y-4 mt-4">
             {!isConnected ? (
-              <>
-                <Button variant="outline" onClick={() => navigate("/login")}>
-                  <User className="mr-2 h-4 w-4" /> Login
-                </Button>
-              </>
+              <Button variant="outline" onClick={() => navigate("/login")}>
+                <User className="mr-2 h-4 w-4" /> Login
+              </Button>
             ) : (
-              <>
-                <Button
-                  variant="outline"
-                  onClick={() => navigate(dashboardRoute)}
-                >
-                  <User className="mr-2 h-4 w-4" /> {account?.slice(0, 6) + "..." + account?.slice(37, 42)}
-                </Button>
-              </>
+              <Button
+                variant="outline"
+                onClick={() => navigate(dashboardRoute)}
+              >
+                <User className="mr-2 h-4 w-4" />{" "}
+                {account?.slice(0, 6) + "..." + account?.slice(37, 42)}
+              </Button>
             )}
-            <Button onClick={() => setIsOpen(false)}>
+            <Button onClick={handleVerifySearchClick}>
               <Search className="mr-2 h-4 w-4" /> Verify Search
             </Button>
           </div>
