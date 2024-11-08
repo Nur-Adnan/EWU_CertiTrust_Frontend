@@ -128,6 +128,7 @@ export default function PendingApprovals() {
   const [studentId, setStudentId] = useState("");
   const [enrolledProgram, setEnrolledProgram] = useState("");
   const [maxCredit, setMaxCredit] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   // blockchain call
   const { certiTrust } = useWallet();
@@ -172,6 +173,7 @@ export default function PendingApprovals() {
 
   const handleApproval = async () => {
     if (!selectedUser || selectedUser.role !== "student") return;
+    setLoading(true)
 
     try {
       const tx = await certiTrust.addStudent(
@@ -182,7 +184,9 @@ export default function PendingApprovals() {
         maxCredit,
         { gasLimit: 3000000, gasPrice: 0 }
       );
-      await tx.wait();
+      const response = await tx.wait();
+      console.log(response)
+      setLoading(false);
       handleAction(selectedUser.id, "approve");
       setSelectedUser(null);
     } catch (error) {
