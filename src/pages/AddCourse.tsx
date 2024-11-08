@@ -10,20 +10,32 @@ import {
   CardContent,
   CardFooter,
 } from "@/components/ui/card";
+import api from "@/api";
 
 export default function Component() {
   const [courseName, setCourseName] = useState("");
   const [courseId, setCourseId] = useState("");
   const [credit, setCredit] = useState("");
+  const [message, setMessage] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Here you would typically send this data to your backend or blockchain
-    console.log({ courseName, courseId, credit });
-    // Reset form after submission
-    setCourseName("");
-    setCourseId("");
-    setCredit("");
+    setMessage(""); // Clear any previous messages
+
+    try {
+      const response = await api.post("/addCourse/courses", {
+        courseName,
+        courseId,
+        credit,
+      });
+      setMessage(response.data.message);
+      setCourseName("");
+      setCourseId("");
+      setCredit("");
+    } catch (error) {
+      console.error("Error submitting course:", error);
+      setMessage("An error occurred while submitting the course.");
+    }
   };
 
   return (
@@ -31,7 +43,7 @@ export default function Component() {
       <CardHeader>
         <CardTitle>Course Information</CardTitle>
         <CardDescription>
-          Enter the details of the course to be added to the blockchain.
+          Enter the details of the course to be added to the database.
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -72,9 +84,18 @@ export default function Component() {
           </Button>
         </form>
       </CardContent>
-      <CardFooter className="flex justify-center">
-        <p className="text-sm text-gray-500">
-          This information will be securely stored on the blockchain.
+      <CardFooter className="flex flex-col items-center">
+        {message && (
+          <p
+            className={`text-sm ${
+              message.includes("Error") ? "text-red-500" : "text-green-500"
+            }`}
+          >
+            {message}
+          </p>
+        )}
+        <p className="text-sm text-gray-500 mt-2">
+          This information will be securely stored in the database.
         </p>
       </CardFooter>
     </Card>

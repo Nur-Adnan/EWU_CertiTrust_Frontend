@@ -1,5 +1,3 @@
-"use client";
-
 import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -28,7 +26,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import api from "@/api";
-import useWallet from "./../hooks/useWallet"
+import useWallet from "./../hooks/useWallet";
 
 type Role = "faculty" | "student" | "examController";
 type Status = "pending" | "approved" | "rejected";
@@ -173,7 +171,7 @@ export default function PendingApprovals() {
 
   const handleApproval = async () => {
     if (!selectedUser || selectedUser.role !== "student") return;
-    setLoading(true)
+    setLoading(true);
 
     try {
       const tx = await certiTrust.addStudent(
@@ -185,7 +183,7 @@ export default function PendingApprovals() {
         { gasLimit: 3000000, gasPrice: 0 }
       );
       const response = await tx.wait();
-      console.log(response)
+      console.log(response);
       setLoading(false);
       handleAction(selectedUser.id, "approve");
       setSelectedUser(null);
