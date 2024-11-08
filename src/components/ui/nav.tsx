@@ -1,3 +1,4 @@
+// Nav.tsx
 import { FC } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { LucideIcon } from "lucide-react";

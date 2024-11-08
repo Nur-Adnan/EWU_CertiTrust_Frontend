@@ -2,6 +2,7 @@ import React, { FC } from "react";
 import { LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
+// Define CardProps with onClick support
 export type CardProps = {
   label: string;
   icon: LucideIcon;
@@ -10,6 +11,7 @@ export type CardProps = {
   onClick?: () => void;
 };
 
+// Main Card Component
 const Card: FC<CardProps> = ({
   label,
   amount,
@@ -19,6 +21,8 @@ const Card: FC<CardProps> = ({
 }) => {
   return (
     <CardContent onClick={onClick} className="cursor-pointer">
+      {" "}
+      {/* Make card clickable */}
       <section className="flex justify-between gap-2">
         <p className="text-sm">{label}</p>
         <Icon className="h-4 w-4 text-gray-400" />
@@ -31,6 +35,7 @@ const Card: FC<CardProps> = ({
   );
 };
 
+// CardContent Component
 export function CardContent(props: React.HTMLAttributes<HTMLDivElement>) {
   return (
     <div
