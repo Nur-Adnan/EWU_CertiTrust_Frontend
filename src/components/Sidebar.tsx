@@ -25,7 +25,7 @@ const SideNavbar: FC<SidebarProps> = ({ onSelectSection }) => {
   const onlyWidth = useWindowWidth();
   const mobileWidth = onlyWidth < 768;
 
-  if (role !== 'admin') return null;
+  if (role !== "admin") return null;
 
   function toggleSidebar() {
     setIsCollapsed(!isCollapsed);
@@ -102,6 +102,20 @@ const SideNavbar: FC<SidebarProps> = ({ onSelectSection }) => {
             icon: BookOpen,
             variant: "ghost",
             onClick: () => onSelectSection("Grade Records"),
+          },
+          {
+            title: "Add Course",
+            href: "/university-dashboard/add-course",
+            icon: BookOpen,
+            variant: "ghost",
+            onClick: () => onSelectSection("Add Course"),
+          },
+          {
+            title: "Assign Course",
+            href: "/university-dashboard/assign-course",
+            icon: BookOpen,
+            variant: "ghost",
+            onClick: () => onSelectSection("Assign Course"),
           },
         ]}
       />

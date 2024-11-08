@@ -77,6 +77,14 @@ function App() {
                   path="/university-dashboard/grade-records"
                   element={<UniversityDashboard />}
                 />
+                <Route
+                  path="/university-dashboard/add-course"
+                  element={<UniversityDashboard />}
+                />
+                <Route
+                  path="/university-dashboard/assign-course"
+                  element={<UniversityDashboard />}
+                />
               </>
             )}
 
