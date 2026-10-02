@@ -1,50 +1,29 @@
-# React + TypeScript + Vite
+# CertiTrust (frontend)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+CertiTrust is a blockchain-based system for issuing and verifying academic certificates. It was built by team Ledger Legends and was a finalist project at the EWU National Hackathon 2024.
 
-Currently, two official plugins are available:
+This repository is the web client. The API lives in [EWU_CertiTrust_Backend](https://github.com/Nur-Adnan/EWU_CertiTrust_Backend).
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## What it does
 
-## Expanding the ESLint configuration
+- Separate dashboards for students, faculty, exam controllers and admins
+- Course creation and course assignment
+- Grade submission by faculty, followed by an approval step
+- Grade records and grade history
+- Certificate generation once grades are approved
+- Wallet connection through a `useWallet` hook, talking to the CertiTrust smart contract with ethers.js (ABI in `src/utils/CertiTrust.json`)
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Stack
 
-- Configure the top-level `parserOptions` property like this:
+React, TypeScript, Vite, Tailwind CSS, shadcn/ui and ethers.js.
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## Getting started
+
+```bash
+git clone https://github.com/Nur-Adnan/EWU_CertiTrust_Frontend.git
+cd EWU_CertiTrust_Frontend
+npm install
+npm run dev
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+Run the backend alongside it so the client has an API to talk to.
